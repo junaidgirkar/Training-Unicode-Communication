@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>LIST_VIEW</title>
@@ -7,17 +7,25 @@
 <body>
     <div class="main">
         {% for data in dataset %}
+            {{ data.id }}<br>
         {{ data.question }}<br>
             {% if data.option1 == data.correctAnswer %}
-            <strong>{{ data.option1 }}</strong><br>
+            <input type="radio" name="option{{ data.id }}">
+                <label><strong>{{ data.option1 }}</strong><br></label>
             {% endif %}
+            <input type="radio" name="option{{ data.id }}">
+            <label>{{ data.option2 }}<br></label>
+            <input type="radio" name="option{{ data.id }}">
+            <label>{{ data.option3 }}<br></label>
+            <input type="radio" name="option{{ data.id }}">
+            <label>{{ data.option4 }}<br></label>
 
-        {{ data.option2 }}<br>
-        {{ data.option3 }}<br>
-        {{ data.option4 }}<br>
+
             <br><br><br>
             <hr>
         {% endfor %}
+    <button type="submit" value="Submit">SUBMIT</button>
+    <br><br>
     </div>
 </body>
 </html>

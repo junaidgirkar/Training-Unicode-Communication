@@ -10,4 +10,4 @@ class Quiz(models.Model):
     correctAnswer = models.CharField(max_length=200)
 
     def __str__(self):
-        return self.question , self.correctAnswer
+        return self.question, self.correctAnswer
