@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LIST_VIEW</title>
+</head>
+<body>
+    <div class="main">
+        {% for data in dataset %}
+        {{ data.question }}<br>
+            {% if data.option1 == data.correctAnswer %}
+            <strong>{{ data.option1 }}</strong><br>
+            {% endif %}
+
+        {{ data.option2 }}<br>
+        {{ data.option3 }}<br>
+        {{ data.option4 }}<br>
+            <br><br><br>
+            <hr>
+        {% endfor %}
+    </div>
+</body>
+</html>
