@@ -43,3 +43,15 @@ def update_view(request, id):
 
     return render(request, 'communication\\update_view.html', context)
 
+def delete_view(request, id):
+    context = {}
+    #fetch the obj related to passed id
+    obj = get_object_or_404(Quiz, id = id)
+
+    if request.method == 'POST':
+        # Delete Object
+        obj.delete()
+        # After Deleting Redirect to Home Page
+        return HttpResponseRedirect('/')
+    return render(request, "communication\\delete_view.html", context)
+
