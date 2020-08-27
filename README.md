@@ -5,9 +5,9 @@
 ### CRUD Quiz app for Teachers
 # Current Task:
  
- ## Add user Authentication
+ ### Add user Authentication
  
 # Working On:
 
-## User authentication
-## Making a CRUD Quiz app 
+### User authentication
+### Making a CRUD Quiz app 
