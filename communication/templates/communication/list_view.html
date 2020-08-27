@@ -6,20 +6,23 @@
 </head>
 <body>
     <div class="main">
+    <form method="post" action="{% url 'result_view' %}>
         {% for data in dataset %}
             {{ data.id }}<br>
-        {{ data.question }}<br>
-            {% if data.option1 == data.correctAnswer %}
-            <input type="radio" name="option{{ data.id }}">
-                <label><strong>{{ data.option1 }}</strong><br></label>
-            {% endif %}
-            <input type="radio" name="option{{ data.id }}">
-            <label>{{ data.option2 }}<br></label>
-            <input type="radio" name="option{{ data.id }}">
-            <label>{{ data.option3 }}<br></label>
-            <input type="radio" name="option{{ data.id }}">
-            <label>{{ data.option4 }}<br></label>
+            {{ data.question }}<br>
 
+            <input type="radio" name="option{{ data.id }}">
+                <label>{{ data.option1 }}</label><br>
+
+            <input type="radio" name="option{{ data.id }}">
+                <label><i>{{ data.option1 }}</i></label><br>
+           <input type="radio" name="option{{ data.id }}">
+                <label>{{ data.option2 }}<br></label>
+            <input type="radio" name="option{{ data.id }}">
+                <label>{{ data.option3 }}<br></label>
+            <input type="radio" name="option{{ data.id }}">
+                <label>{{ data.option4 }}<br></label>
+            </form>
 
             <br><br><br>
             <hr>
