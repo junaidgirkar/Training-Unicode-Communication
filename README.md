@@ -3,11 +3,13 @@
 # Done:
 ### ERD Diagram
 ### CRUD Quiz app for Teachers
+#### Student AUthentication
 # Current Task:
  
  ### Add user Authentication
  
 # Working On:
 
-### User authentication
-### Making a CRUD Quiz app 
+### User Authentication
+#### Teacher Authentication
+#### Making a CRUD Quiz app 
