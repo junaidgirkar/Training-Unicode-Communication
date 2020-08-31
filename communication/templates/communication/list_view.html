@@ -1,34 +1,34 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html">
+
 <head>
     <meta charset="UTF-8">
     <title>LIST_VIEW</title>
 </head>
+
 <body>
     <div class="main">
-    <form method="post" action="{% url 'result_view' %}>
+        <form method="post" action="{% url 'result_view' %}>
+        {% csrf_token %}
         {% for data in dataset %}
-            {{ data.id }}<br>
-            {{ data.question }}<br>
+            <h3>{{ data.id }}: {{ data.question }} </h3><br>
 
+            <input type = 'radio' name=" option{{ data.id }}">
+            <label>{{ data.option1 }}</label><br>
             <input type="radio" name="option{{ data.id }}">
-                <label>{{ data.option1 }}</label><br>
+            <label>{{ data.option2 }}<br></label>
+            <input type="radio" name="option{{ data.id }}">
+            <label>{{ data.option3 }}<br></label>
+            <input type="radio" name="option{{ data.id }}">
+            <label>{{ data.option4 }}<br></label>
+        </form>
 
-            <input type="radio" name="option{{ data.id }}">
-                <label><i>{{ data.option1 }}</i></label><br>
-           <input type="radio" name="option{{ data.id }}">
-                <label>{{ data.option2 }}<br></label>
-            <input type="radio" name="option{{ data.id }}">
-                <label>{{ data.option3 }}<br></label>
-            <input type="radio" name="option{{ data.id }}">
-                <label>{{ data.option4 }}<br></label>
-            </form>
-
-            <br><br><br>
-            <hr>
+        <br><br><br>
+        <hr>
         {% endfor %}
-    <button type="submit" value="Submit">SUBMIT</button>
-    <br><br>
+        <button type="submit" value="Submit">SUBMIT</button>
+        <br><br>
     </div>
 </body>
+
 </html>

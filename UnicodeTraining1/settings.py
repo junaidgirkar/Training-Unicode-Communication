@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'communication',
+    'account',
 
 
     
@@ -70,6 +71,7 @@ TEMPLATES = [
         },
     },
 ]
+AUTH_USER_MODEL = 'account.User'
 
 WSGI_APPLICATION = 'UnicodeTraining1.wsgi.application'
 
