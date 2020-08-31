@@ -104,6 +104,7 @@ class Student(User):
         default = None,
         unique = True
     )
+    role = 'STUDENT'
     is_student = True
     department = models.CharField(max_length=10, blank=False)
     year = models.CharField(max_length=4, blank=False)
@@ -112,3 +113,25 @@ class Student(User):
 
     def __str__(self):
         return self.email
+
+class Teacher(User):
+    sap_regex = RegexValidator(
+        regex=r"^\+?6?\d{10,12}$", message="SAP ID must be valid")
+
+    teacher_sap_id = models.CharField(
+        validators = [sap_regex],
+        max_length=12,
+        blank=False,
+        null=True,
+        default=None,
+        unique=True
+    )
+    role = 'TEACHER'
+    is_teacher = True
+    subject = models.CharField(max_length=10, blank=False)
+    teachingExperience = models.CharField(max_length=4, blank=False)
+    teacher_req = ['department', 'year', 'teacher_sap_id']
+    REQUIRED_FIELDS = ['username', 'subject', 'teachingExperience', 'teacher_sap_id']
+
+    def __str__(self):
+        return self.email + '( ' + self.subject + ' )'
