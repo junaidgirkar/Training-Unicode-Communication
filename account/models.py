@@ -1,10 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.core.validators import RegexValidator
+from django.db import models
+from django.forms import ModelForm
 
 # Create your models here.
 class MyAccountManager(BaseUserManager):
-    def create_user(self,f_name, m_name, l_name, dob, email, password=None,):
+    def create_user(self, f_name, m_name, l_name, dob, email, password=None,):
         if not email:
             raise ValueError('Users must have an email address')
         if not password:
@@ -62,6 +64,7 @@ class User(AbstractBaseUser):
     is_superuser = models.BooleanField(default=False)
     is_student = models.BooleanField(default =False)
     is_teacher = models.BooleanField(default = False)
+    role = ""
 
 
     def __str__(self):
@@ -135,3 +138,17 @@ class Teacher(User):
 
     def __str__(self):
         return self.email + '( ' + self.subject + ' )'
+
+class StudentDetail(models.Model):
+
+    sap_id = models.CharField(verbose_name='sap id',max_length=11)
+    f_name = models.CharField(verbose_name='first name', max_length=255)
+    l_name = models.CharField(verbose_name='last name', max_length=255)
+    email = models.EmailField(max_length = 100, verbose_name='email')
+    is_student = models.BooleanField(default=True)
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['f_name', 'l_name', 'is_student']
+
+    def __str__(self):
+        return self.email
