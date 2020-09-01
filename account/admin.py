@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import Group
 from django.contrib.auth.forms import UserCreationForm
-from .models import User, Student, Teacher, StudentDetail
+from .models import User, Student, Teacher
 
 
 # Register your models here.
@@ -44,5 +44,5 @@ admin.site.unregister(Group)
 admin.site.register(User, BaseUserAdmin)
 admin.site.register(Student, StudentAdmin)
 admin.site.register(Teacher, TeacherAdmin)
-admin.site.register(StudentDetail, StudentDisplayAdmin)
+
 

@@ -48,14 +48,7 @@ class User(AbstractBaseUser):
     m_name = models.CharField(max_length = 20)
     l_name = models.CharField(max_length = 20)
     dob = models.DateField(null=True, blank=True)
-    """
-    profile_image = models.ImageField(
-        default="profile_images/default.png",
-        upload_to="profile_images",
-        blank=True,
-        null=True,
-    )
-    """
+
     date_joined = models.DateField(verbose_name = 'date joined', auto_now_add = True)
     last_login = models.DateField(verbose_name='last login', auto_now = True)
     is_admin = models.BooleanField(default = False)
@@ -96,6 +89,7 @@ class User(AbstractBaseUser):
 
 
 class Student(User):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, parent_link=True)
     sap_regex = RegexValidator(
         regex=r"^\+?6?\d{10,12}$", message="SAP ID must be valid"
     )
@@ -111,13 +105,14 @@ class Student(User):
     is_student = True
     department = models.CharField(max_length=10, blank=False)
     year = models.CharField(max_length=4, blank=False)
-    Stud_req = ['department', 'sap_id', 'year']
+
     REQUIRED_FIELDS = ['username', 'department', 'year', 'sap_id']
 
     def __str__(self):
         return self.email
 
 class Teacher(User):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, parent_link=True)
     sap_regex = RegexValidator(
         regex=r"^\+?6?\d{10,12}$", message="SAP ID must be valid")
 
@@ -133,22 +128,9 @@ class Teacher(User):
     is_teacher = True
     subject = models.CharField(max_length=10, blank=False)
     teachingExperience = models.CharField(max_length=4, blank=False)
-    teacher_req = ['department', 'year', 'teacher_sap_id']
+
     REQUIRED_FIELDS = ['username', 'subject', 'teachingExperience', 'teacher_sap_id']
 
     def __str__(self):
         return self.email + '( ' + self.subject + ' )'
 
-class StudentDetail(models.Model):
-
-    sap_id = models.CharField(verbose_name='sap id',max_length=11)
-    f_name = models.CharField(verbose_name='first name', max_length=255)
-    l_name = models.CharField(verbose_name='last name', max_length=255)
-    email = models.EmailField(max_length = 100, verbose_name='email')
-    is_student = models.BooleanField(default=True)
-
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['f_name', 'l_name', 'is_student']
-
-    def __str__(self):
-        return self.email

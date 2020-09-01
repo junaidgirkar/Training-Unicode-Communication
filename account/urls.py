@@ -1,9 +1,15 @@
 from account import views
 from django.urls import include, path
+from django.contrib.auth import login, logout
 
 
 urlpatterns = [
 
-    #path('userdetails/',views.studentDetail, name = 'UserDetails'),
-    path('display/', views.studentDetail, name = 'useDetailDisplay'),
+    path('', views.home, name = 'home'),
+    path('index/',views.index, name='index'),
+    path('signup/', views.studentSignup, name='signup'),
+    path('teacherSignup/', views.TeacherSignup, name='teacherSignup'),
+    path('logout/', views.logout, name='logout'),
+    path('account/', include('django.contrib.auth.urls')),
+
     ]
