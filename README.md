@@ -4,12 +4,10 @@
 ### ERD Diagram
 ### CRUD Quiz app for Teachers
 #### Student AUthentication
+#### Teacher Authentication
 # Current Task:
+### Teacher CRUD App
  
- ### Add user Authentication
  
 # Working On:
-
-### User Authentication
-#### Teacher Authentication
 #### Making a CRUD Quiz app 
