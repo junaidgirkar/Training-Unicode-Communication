@@ -14,5 +14,13 @@
 <br>
 <a href='{% url 'login' %}'>LOGIN </a>
 
+{% if user.is_student %}
+
+<h1>Student Confirmed</h1>
+{% endif %}
+{% if user.is_teacher %}
+<h1>Teacher Confirmed</h1>
+{% endif %}
+
 </body>
 </html>
