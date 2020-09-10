@@ -30,10 +30,12 @@ def studentSignup(request):
     if request.method == 'POST':
         form = StudentSignUpForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=raw_password)
+            #user = authenticate(username=username, password=raw_password)
+            user.is_student == 'True'
+            user.is_teacher== 'False'
             login(request, user)
             return redirect('home')
     else:
@@ -44,10 +46,12 @@ def TeacherSignup(request):
     if request.method == 'POST':
         form = TeacherSignUpForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=raw_password)
+            #user = authenticate(username=username, password=raw_password)
+            user.is_teacher == 'True'
+            user.is_student == 'False'
             login(request, user)
             return redirect('home')
     else:

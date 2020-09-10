@@ -20,14 +20,14 @@ class BaseUserAdmin(UserAdmin):
     fieldsets = ()
 
 class StudentAdmin(UserAdmin):
-    list_display = ('email','sap_id', 'department', 'year')
+    list_display = ('email','is_student', 'is_teacher', 'role')
 
     filter_horizontal = ()
     list_filter = ()
     fieldsets = ()
 
 class TeacherAdmin(UserAdmin):
-    list_display = ('email', 'teacher_sap_id', 'subject', 'teachingExperience')
+    list_display = ('email', 'is_student', 'is_teacher', 'role')
     filter_horizontal = ()
     list_filter = ()
     fieldsets = ()

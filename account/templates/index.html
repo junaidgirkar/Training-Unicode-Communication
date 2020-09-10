@@ -6,7 +6,9 @@
 </head>
 <body>
 <h1> Welcome {{user}} </h1>
-
+Is Student : {{user.is_student}}<br>
+Is Teacher : {{user.is_teacher}}</br>
+Role : {{user.role}}
 <br>
 <a href="{% url 'logout' %}">LOGOUT</a>
 </body>

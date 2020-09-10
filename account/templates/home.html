@@ -5,10 +5,14 @@
     <title>HOME</title>
 </head>
 <body>
+{{user}}<br>
+
+<a href="{% url 'index'%}">INDEX</a></br>
 <a href="{% url 'signup' %}">STUDENT REGISTERATION</a>
 <br>
 <a href="{%  url 'teacherSignup' %}">TEACHER REGISTERATION</a>
 <br>
+<a href='{% url 'login' %}'>LOGIN </a>
 
 </body>
 </html>
