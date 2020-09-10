@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index</title>
+</head>
+<body>
+    {% if user.is_teacher %}
+    <a href="{% url 'create_info' %}">Add new quiz</a><br><br>
+    {% for quiz in quizzes %}
+    <span><a href="{% url 'display' quiz.id %}">{{ quiz }}  </a><button><a href="{% url 'delete' quiz.id %}">delete</a></button></span><br><br>
+    {% endfor %}
+    {% else %}
+    <p>hello student</p>
+    {% endif %}
+
+</body>
+</html>

@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import *
+from django.forms.widgets import RadioSelect
 from django.db import transaction
 from django.forms.utils import ValidationError
 
@@ -33,42 +34,25 @@ class TeacherSignUpForm(UserCreationForm):
         model = Teacher
         fields = ('first_name', 'last_name','role', 'email', 'password1', 'password2', )
         
-        
-        
+
+
+
+class QuizForm(forms.ModelForm):
+
+    class Meta:
+        model = Quiz
+        fields = ['topic','total_marks']
+
 class QuestionForm(forms.ModelForm):
+
     class Meta:
         model = Question
-        fields = ('text', )
-
-
-class BaseAnswerInlineFormSet(forms.BaseInlineFormSet):
-    def clean(self):
-        super().clean()
-
-        has_one_correct_answer = False
-        for form in self.forms:
-            if not form.cleaned_data.get('DELETE', False):
-                if form.cleaned_data.get('is_correct', False):
-                    has_one_correct_answer = True
-                    break
-        if not has_one_correct_answer:
-            raise ValidationError('Mark at least one answer as correct.', code='no_correct_answer')
-
-
-class TakeQuizForm(forms.ModelForm):
-    answer = forms.ModelChoiceField(
-        queryset=Answer.objects.none(),
-        widget=forms.RadioSelect(),
-        required=True,
-        empty_label=None)
-
-    class Meta:
-        model = StudentAnswer
-        fields = ('answer', )
-
-    def __init__(self, *args, **kwargs):
-        question = kwargs.pop('question')
-        super().__init__(*args, **kwargs)
-        self.fields['answer'].queryset = question.answers.order_by('text')
-        
-        
+        fields = ['question_text','choice1','choice2','choice3','choice4','correct_choice']
+        labels = {
+            "question_text" : "Question",
+            "choice1" : "Option 1",
+            "choice2" : "Option 2",
+            "choice3" : "Option 3",
+            "choice4" : "Option 4",
+            "correct_choice" : "Correct Answer"
+        }

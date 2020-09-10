@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questions</title>
+</head>
+<body>
+    <form action="{% url 'create' %}" method="POST" id="form">
+        {% csrf_token %}
+        <input type="hidden" value="{{ quiz }}" name="object">
+        {{ form.as_p }}
+        {% if last %}
+        <button type="submit" id="sub" data-url="{% url 'quiz_index' %}">Submit</button>
+        {% else %}
+        <button type="submit">Next</button>
+        {% endif %}
+    </form>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            $('#sub').click(function(event){
+                url = $(this).data('url')
+                event.preventDefault()
+                window.location.replace(url)
+            })
+        })
+    </script>
+</body>
+</html>

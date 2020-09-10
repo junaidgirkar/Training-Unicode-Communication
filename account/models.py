@@ -2,6 +2,26 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.core.validators import RegexValidator
 from django.db import models
+from django.template.defaultfilters import slugify
+from django.db.models.signals import post_save, pre_save
+from django.dispatch import receiver
+from django.contrib.auth.models import User
+
+import re
+import json
+
+from django.db import models
+from django.core.exceptions import ValidationError, ImproperlyConfigured
+from django.core.validators import MaxValueValidator, validate_comma_separated_integer_list
+from django.utils.timezone import now
+from django.conf import settings
+from django.utils.translation import ugettext as _
+from model_utils.managers import InheritanceManager
+from django.db.models.signals import pre_save, post_save
+import io
+
+from django.contrib.auth.models import User
+from django.contrib import messages
 from django.forms import ModelForm
 from django.utils.html import escape, mark_safe
 
@@ -83,6 +103,9 @@ class TeacherManager(BaseUserManager):
 
         return user
 
+
+
+
 class User(AbstractBaseUser):
     email = models.EmailField(verbose_name = 'email', max_length = 60, unique = True)
     username = models.CharField(max_length = 255, blank=True, null=True)
@@ -130,9 +153,6 @@ class User(AbstractBaseUser):
     def is_teacher(self):
         return self.role == "TEACHER"
 
-
-
-
 class Teacher(User):
     user = models.OneToOneField(User, on_delete=models.CASCADE, parent_link=True)
     sap_regex = RegexValidator(
@@ -145,11 +165,12 @@ class Teacher(User):
         blank=False,
         null=True,
         default=None,
-        unique=True
+        unique=True,
+
     )
     
     type = models.CharField(max_length=100)
-    subject = models.CharField(max_length=10, blank=False)
+    subject = models.CharField(max_length=15, blank=False)
     teachingExperience = models.CharField(max_length=4, blank=False)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username', 'subject', 'teachingExperience', 'teacher_sap_id']
@@ -158,26 +179,9 @@ class Teacher(User):
     def __str__(self):
         return self.email + '( ' + self.subject + ' )'
 
-
-    
-    
-    
-    
-    
-"""     QUIZ MODELS """
-class Quiz(models.Model):
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='quizzes')
-    name = models.CharField(max_length=255)
-    # subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='quizzes')
-
-    def __str__(self):
-        return self.name
-
-
-
 class Student(User):
     user = models.OneToOneField(User, on_delete=models.CASCADE, parent_link=True)
-    quizzes = models.ManyToManyField(Quiz, through='TakenQuiz')
+    #quizzes = models.ManyToManyField(Quiz, through='TakenQuiz')
     # interests = models.ManyToManyField(Subject, related_name='interested_students')
 
     def get_unanswered_questions(self, quiz):
@@ -211,30 +215,35 @@ class Student(User):
         return self.email
 
 
-class Question(models.Model):
-    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name='questions')
-    text = models.CharField('Question', max_length=1000000)
+class Quiz(models.Model):
+    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, null=True)
+    topic = models.CharField(max_length=30, default='Topic')
+    total_marks = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.text
+        return self.topic
+
+    class Meta:
+        verbose_name_plural = 'Quizzes'
+
+
+class Question(models.Model):
+    quiz = models.ForeignKey('Quiz', on_delete=models.CASCADE)
+    question_text = models.TextField(default='question_text')
+    choice1 = models.CharField(max_length=30, default='choice1')
+    choice2 = models.CharField(max_length=30, default='choice2')
+    choice3 = models.CharField(max_length=30, default='choice3')
+    choice4 = models.CharField(max_length=30, default='choice4')
+    correct_choice = models.CharField(max_length=30, default='correct_choice')
 
 
 class Answer(models.Model):
-    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='answers')
-    text = models.CharField('Answer', max_length=10000)
-    is_correct = models.BooleanField('Correct answer', default=False)
-
-    def __str__(self):
-        return self.text
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    question = models.ForeignKey('Question', on_delete=models.CASCADE)
+    answer = models.CharField(max_length=30)
 
 
-class TakenQuiz(models.Model):
-    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='taken_quizzes')
-    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name='taken_quizzes')
-    score = models.FloatField()
-    date = models.DateTimeField(auto_now_add=True)
-
-
-class StudentAnswer(models.Model):
-    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='quiz_answers')
-    answer = models.ForeignKey(Answer, on_delete=models.CASCADE, related_name='+')
+class Result(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    quiz = models.ForeignKey('Quiz', on_delete=models.CASCADE)
+    marks_obtained = models.IntegerField()

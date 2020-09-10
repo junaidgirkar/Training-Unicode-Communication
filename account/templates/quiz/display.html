@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Display</title>
+</head>
+<body>
+    {% for question in questions %}
+    <h4>Question : </h4><p>{{ question.question_text }}</p><br>
+    <h4>Option 1 : </h4><p>{{ question.choice1 }}</p>
+    <h4>Option 2 : </h4><p>{{ question.choice2 }}</p>
+    <h4>Option 3 : </h4><p>{{ question.choice3 }}</p>
+    <h4>Option 4 : </h4><p>{{ question.choice4 }}</p><br>
+    <h4>Correct Answer : </h4><p>{{ question.correct_choice }}</p>
+    <button><a href="{% url 'update' question.id %}">Update</a></button>
+        <hr><hr>
+    {% endfor %}
+
+
+</body>
+</html>

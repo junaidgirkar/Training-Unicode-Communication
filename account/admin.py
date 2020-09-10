@@ -3,6 +3,13 @@ from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import Group
 from django.contrib.auth.forms import UserCreationForm
 from .models import User, Student, Teacher
+import nested_admin
+from django.contrib import admin
+from django import forms
+from django.contrib.admin.widgets import FilteredSelectMultiple
+
+from django.utils.translation import ugettext_lazy as _
+from .models import *
 
 
 # Register your models here.
@@ -40,7 +47,12 @@ class StudentDisplayAdmin(UserAdmin):
     list_filter = ()
     fieldsets = ()
 
+admin.site.site_header = 'My administration'
+admin.site.site_title = 'Classroom'
+admin.site.index_title = 'Site admin panel'
+
 admin.site.unregister(Group)
+admin.site.register((Quiz,Question,Answer,Result))
 admin.site.register(User, BaseUserAdmin)
 admin.site.register(Student, StudentAdmin)
 admin.site.register(Teacher, TeacherAdmin)
