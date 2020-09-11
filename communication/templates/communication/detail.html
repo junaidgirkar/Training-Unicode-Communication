@@ -1,0 +1,23 @@
+{% extends 'quiz_base.html' %}
+
+{% block body_block %}
+{% for x in questions %}
+<h2>{{x.question}}</h2>
+<p>1. {{x.option_1}}</p>
+<p></p>
+<p>2. {{x.option_2}}</p>
+<p></p>
+<p>3. {{x.option_3}}</p>
+<p></p>
+<p>4. {{x.option_4}}</p>
+<p></p>
+<form  method="post">
+  {% csrf_token %}
+  <label for="ans">Correct Answer</label>
+  <input type="text" name="ans" value="">
+
+  <input type="hidden" name="luck" value="{{x.id}}">
+  <input type="submit" name="" value="submit">
+</form>
+{% endfor %}
+{% endblock %}

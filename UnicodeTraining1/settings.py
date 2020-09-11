@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'communication',
     'account',
+    'quiz',
     'nested_admin',
 
 

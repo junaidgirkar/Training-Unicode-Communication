@@ -1,0 +1,7 @@
+{% extends 'quiz_base.html' %}
+
+{% block body_block %}
+{% for topic in topic %}
+<h1><a href="{{topic.id}}">{{topic.exam_topic}}</a></h1>
+{% endfor %}
+{% endblock %}

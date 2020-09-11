@@ -1,98 +1,58 @@
-from django.shortcuts import render, HttpResponseRedirect, get_object_or_404
-from .models import Quiz
-from .forms import QuizForm
-from django.views import View
+from django.shortcuts import render,redirect
+from django.views.generic import TemplateView,ListView,DetailView,CreateView,UpdateView,DeleteView
+from communication import models
+from django.urls import reverse_lazy
+
 # Create your views here.
 
-class create_view(View):
-    def get(self, request):
-        context = {}
+class IndexView(TemplateView):
+    template_name='index.html'
 
-        form = QuizForm(request.POST or None)
-        if form.is_valid():
-            form.save()
-        context['form'] = form
-        return render(request, 'communication\\create_view.html', context)
-    def post(self,request):
-        context = {}
-
-        form = QuizForm(request.POST or None)
-        if form.is_valid():
-            form.save()
-        context['form'] = form
-        return render(request, 'communication\\create_view.html', context)
+    def get_context_data(self,**kwargs):
+        context=super().get_context_data(**kwargs)
+        context['injectme']='hello'
+        return context
 
 
-class list_view(View):
-    def get(self, request):
-        context = {}
-        context['dataset'] = Quiz.objects.all()
-
-        return render(request, 'communication\\list_view.html', context)
-
-class detail_view(View):
-    def get(self, request, id):
-        context = {}
-        context["data"] = Quiz.objects.get(id = id)
-
-        return render(request, 'communication\\detail_view.html', context)
-
-class update_view(View):
-    def get(self, request, id):
-        context = {}
-        # fetch object related to passed it
-        obj = get_object_or_404(Quiz, id=id)
-        #pass the obj as instance in form
-        form = QuizForm(request.POST or None, instance = obj)
-        #Save data and redirect
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect("/"+id)
-        #add form directry to context
-        context['form'] = form
-        return render(request, 'communication\\update_view.html', context)
-
-    def post(self, request, id):
-        context = {}
-        # fetch object related to passed it
-        obj = get_object_or_404(Quiz, id=id)
-        # pass the obj as instance in form
-        form = QuizForm(request.POST or None, instance=obj)
-        # Save data and redirect
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect("/" + id)
-        # add form directry to context
-        context['form'] = form
-        return render(request, 'communication\\update_view.html', context)
-
-class delete_view(View):
-    def get(self, request, id):
-        context = {}
-        #fetch the obj related to passed id
-        obj = get_object_or_404(Quiz, id = id)
-
-        if request.method == 'POST':
-            # Delete Object
-            obj.delete()
-            # After Deleting Redirect to Home Page
-            return HttpResponseRedirect('/')
-        return render(request, "communication\\delete_view.html", context)
-
-    def post(self, request, id):
-        context = {}
-        # fetch the obj related to passed id
-        obj = get_object_or_404(Quiz, id=id)
-
-        if request.method == 'POST':
-            # Delete Object
-            obj.delete()
-            # After Deleting Redirect to Home Page
-            return HttpResponseRedirect('/')
-        return render(request, "communication\\delete_view.html", context)
+class ChapterListView(ListView):
+    model=models.McqExam
 
 
-def result_view(request):
-    score = 0
-    args = {score: score}
-    return render(request, 'communication\\result_view.html', args)
+class QuestionDetailView(DetailView):
+    context_object_name='question'
+    model=models.McqExam
+    template_name='communication/quiz_detail.html'
+
+class ChapterCreateView(CreateView):
+    fields=('exam_topic',)
+    model=models.McqExam
+
+class QuestionUpdateView(UpdateView):
+    fields=('id','question','option_1','option_2','option_3','option_4','correct_ans')
+    model=models.Question
+
+class ChapterDeleteView(DeleteView):
+    model=models.McqExam
+    success_url=reverse_lazy('quiz:list')
+
+def student_chp_lst(request):
+    topic=models.McqExam.objects.all()
+    return render(request,'communication/student_chp_lst.html',{'topic':topic})
+
+def question_detail(request,chp_pk):
+
+    if request.method=='POST':
+
+        answer=request.POST.get('ans')
+        question=request.POST.get('luck')
+
+        question=models.Question.objects.get(id=question)
+        student_response=models.Student_Response(student_response=answer,question=question)
+
+        student_response.save()
+        return redirect('communication:detail_fun',chp_pk)
+
+    else:
+        questions=models.Question.objects.filter(mcq_exam=chp_pk)
+
+        return render(request,'communication/detail.html',{'questions':questions})

@@ -59,8 +59,8 @@ class StudentManager(BaseUserManager):
         user = self.model(
             first_name=first_name,
             last_name=last_name,
-            is_student=is_student,
-            is_teacher=is_teacher,
+            is_student=True,
+            is_teacher=False,
             email=self.normalize_email(email),
             #user.set_password(self.cleaned_data["password"])
             #username=username
@@ -86,8 +86,8 @@ class TeacherManager(BaseUserManager):
             first_name=first_name,
             last_name=last_name,
             email=self.normalize_email(email),
-            is_student=is_student,
-            is_teacher=is_teacher,
+            is_student=False,
+            is_teacher=True,
             #user.set_password(self.cleaned_data["password"])
             #username=username
         )

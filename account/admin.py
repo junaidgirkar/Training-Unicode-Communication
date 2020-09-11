@@ -38,6 +38,7 @@ class TeacherAdmin(UserAdmin):
     filter_horizontal = ()
     list_filter = ()
     fieldsets = ()
+    ordering = ['email']
 
 class StudentDisplayAdmin(UserAdmin):
     list_display = ['email', 'sap_id', 'f_name']
@@ -52,7 +53,7 @@ admin.site.site_title = 'Classroom'
 admin.site.index_title = 'Site admin panel'
 
 admin.site.unregister(Group)
-admin.site.register((Quiz,Question,Answer,Result))
+
 admin.site.register(User, BaseUserAdmin)
 admin.site.register(Student, StudentAdmin)
 admin.site.register(Teacher, TeacherAdmin)

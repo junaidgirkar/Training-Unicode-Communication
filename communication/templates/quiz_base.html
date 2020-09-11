@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <nav class='navbar navbar-default navbat-static-top'>
+      <div class="cointainer">
+        <ul class="nav navbar-nav">
+          <li><a href="{% url 'base_index' %}" class="navbar-brand">BRAND</a></li>
+          <li><a href="{% url 'admin:index' %}" class="navbar-link">Admin</a></li>
+          <li><a href='#' class="navbar-link">Register</a></li>
+
+        </ul>
+
+      </div>
+
+    </nav>
+    <div class="cointainer">
+      {% block body_block %}
+
+      {% endblock %}
+    </div>
+
+  </body>
+</html>
