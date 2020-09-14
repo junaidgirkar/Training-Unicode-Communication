@@ -34,11 +34,11 @@ INSTALLED_APPS = [
     'communication',
     'account',
     'quiz',
-    'nested_admin',
+    # 'nested_admin',
 
 
 
-    
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

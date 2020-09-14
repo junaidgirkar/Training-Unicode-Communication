@@ -6,7 +6,7 @@ class QuizForm(forms.ModelForm):
 
     class Meta:
         model = Quiz
-        fields = ['subject','total_questions']
+        fields = ['topic','total_marks']
 
 class QuestionForm(forms.ModelForm):
 

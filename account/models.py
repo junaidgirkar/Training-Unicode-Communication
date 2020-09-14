@@ -61,32 +61,31 @@ from django.utils.html import escape, mark_safe
         return user"""
 
 
-
 class User(AbstractBaseUser):
-    email = models.EmailField(verbose_name = 'email', max_length = 60, unique = True)
-    username = models.CharField(max_length = 255, blank=True, null=True)
-    f_name = models.CharField(max_length = 20)
-    m_name = models.CharField(max_length = 20)
-    l_name = models.CharField(max_length = 20)
+    email = models.EmailField(verbose_name='email', max_length=60, unique=True)
+    username = models.CharField(max_length=255, blank=True, null=True)
+    first_name = models.CharField(max_length=20)
+    middle_name = models.CharField(max_length=20)
+    last_name = models.CharField(max_length=20)
     dob = models.DateField(null=True, blank=True)
 
-    date_joined = models.DateField(verbose_name = 'date joined', auto_now_add = True)
-    last_login = models.DateField(verbose_name='last login', auto_now = True)
-    is_admin = models.BooleanField(default = False)
+    date_joined = models.DateField(
+        verbose_name='date joined', auto_now_add=True)
+    last_login = models.DateField(verbose_name='last login', auto_now=True)
+    is_admin = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
-    is_teacher = models.BooleanField(default = False)
-    is_student = models.BooleanField(default = False)
-    
+    is_teacher = models.BooleanField(default=False)
+    is_student = models.BooleanField(default=False)
+
     role = models.CharField(max_length=100, default='DefaultRole')
 
-
     def __str__(self):
-        return self.f_name + " " + self.m_name+" "+ self.l_name
+        return self.first_name + " " + self.middle_name+" " + self.last_name
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['f_name', 'm_name', 'l_name', 'dob']
+    REQUIRED_FIELDS = ['first_name', 'middle_name', 'last_name', 'dob']
     objects = UserManager()
 
     def save(self, *args, **kwargs):
@@ -105,14 +104,14 @@ class User(AbstractBaseUser):
 
 
 class Teacher(User):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, parent_link=True)
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, parent_link=True)
     user.is_teacher = True
     sap_regex = RegexValidator(
         regex=r"^\+?6?\d{10,12}$", message="SAP ID must be valid")
-    
 
     teacher_sap_id = models.CharField(
-        validators = [sap_regex],
+        validators=[sap_regex],
         max_length=12,
         blank=False,
         null=True,
@@ -120,7 +119,7 @@ class Teacher(User):
         unique=True,
 
     )
-    
+
     #type = models.CharField(max_length=100)
     subject = models.CharField(max_length=15, blank=False)
     teachingExperience = models.CharField(max_length=4, blank=False)
@@ -131,18 +130,20 @@ class Teacher(User):
     def __str__(self):
         return self.email + '( ' + self.subject + ' )'
 
+
 class Student(User):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, parent_link=True)
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, parent_link=True)
     user.is_student = True
     User.is_student = True
     is_student = True
     sap_id = models.CharField(
         #validators = [sap_regex],
-        max_length = 12,
-        blank = False,
-        null = True,
-        default = None,
-        unique = True
+        max_length=12,
+        blank=False,
+        null=True,
+        default=None,
+        unique=True
     )
 
     type = models.CharField(max_length=100)
@@ -151,8 +152,10 @@ class Student(User):
     objects = StudentManager()
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
+
     def __str__(self):
         return self.user.email
+
 
 """
 class Quiz(models.Model):

@@ -6,8 +6,8 @@ from account.models import Teacher,Student
 
 class Quiz(models.Model):
     teacher = models.ForeignKey(Teacher,on_delete=models.CASCADE)
-    subject = models.CharField(max_length=30)
-    total_questions = models.IntegerField()
+    topic = models.CharField(max_length=30)
+    total_marks = models.IntegerField()
 
     def __str__(self):
         return self.topic + '_' + str(self.id)
@@ -35,8 +35,9 @@ class Answer(models.Model):
     student = models.ForeignKey(Student,on_delete=models.CASCADE)
     question = models.ForeignKey('Question',on_delete=models.CASCADE)
     answer = models.CharField(max_length=30)
-
     
+    def __str__(self):
+        return self.student.username + '_' + str(self.question.id) + '_' + str(self.id)
 
 class Result(models.Model):
     student = models.ForeignKey(Student,on_delete=models.CASCADE)

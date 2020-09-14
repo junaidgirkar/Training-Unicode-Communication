@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+</head>
+<body>
+    <form action="{% url 'register' %}" method="POST" id="form">
+        {% csrf_token %}
+        <div>
+          <label for="first">First Name : </label>
+          <input type="text" name="first_name" id="first" required>
+        </div><br>
+        <div>
+          <label for="last">Last Name : </label>
+          <input type="text" id="last" name="last_name" required>
+        </div><br>
+        <div>
+            <label for="username">Username : </label>
+            <input type="text" id="username" name="username" required>
+        </div><br>
+        <div>
+            <label for="department">Department : </label>
+            <input type="text" id="department" name="department" required>
+        </div><br>
+        <div id="role">
+            <h4>Are you a Teacher or a Student ?</h4>
+            {{ form.as_p }}
+        </div>
+        <div>
+            <label for="email">Email Address : </label>
+            <input type="email" id="email" name="email" required>
+        </div><br>
+        <div>
+            <label for="password1">Password : </label>
+            <input type="password" id="password1" name="password1" required>
+        </div><br>
+        <div>
+            <label for="password2">Confirm Password : </label>
+            <input type="password" id="password2" name="password2" required>
+        </div><br>
+        <button id="next">Next</button><br>
+        <div id="teacher" style="display: none;">
+            <label for="subject">Subject : </label>
+            <input type="text" name="subject" id="subject" required>
+            <br><br>
+        </div>
+        <div id="student" style="display: none;">
+            <label for="sap">Sap ID : </label>
+            <input type="text" name="sap" id="sap" required>
+            <br><br>
+            <label for="div">Division : </label>
+            <input type="text" name="div" id="div" required>
+            <br><br>
+        </div>
+        <button type="submit" id="register" style="display: none;">Register</button>
+        <h3><br> {{ message }} <br></h3>
+        <div><br>
+            Already registered ? <a href="{% url 'login' %}">Login here</a>
+        </div><br><br>
+        
+    </form>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            $("#next").click(function(){
+                
+                var role = $('input[name=choice]:checked').val()
+                if(role == "teacher"){
+                    $("#student").hide()
+                    $("#teacher").show()
+                    $(this).hide()
+                    $("#role").hide()
+                    $("#register").show()
+                }
+                else if(role == "student"){
+                    $("#teacher").hide()
+                    $("#student").show()
+                    $(this).hide()
+                    $("#role").hide()
+                    $("#register").show()
+                }
+                else{
+                    alert("Choose your role first !")
+                }
+            })
+            $("#register").click(function(){
+                $("#form").submit()
+            })
+        })
+    </script>
+    
+</body>
+
+</html>

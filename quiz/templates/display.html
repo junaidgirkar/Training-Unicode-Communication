@@ -1,41 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Display</title>
 </head>
+
 <body>
+    <a href="{% url 'logout' %}">
+        <h3>Logout</h3>
+    </a>
+    <a href="{% url 'index' %}">
+        <h3>Home</h3>
+    </a><br><br>
+    <hr>
     {% if user.is_teacher %}
-        {% for question in questions %}
-            <strong>Question : </strong>{{ question.question_text }}<br><br>
-            <h4>Option 1 : </h4><p>{{ question.choice1 }}</p>
-            <h4>Option 2 : </h4><p>{{ question.choice2 }}</p>
-            <h4>Option 3 : </h4><p>{{ question.choice3 }}</p>
-            <h4>Option 4 : </h4><p>{{ question.choice4 }}</p><br>
-            <h4>Correct Answer : </h4><p>{{ question.correct_choice }}</p>
-            <button><a href="{% url 'update' question.id %}">Update</a></button><br><br><br>
-        {% endfor %}
+    <p><a href="{% url 'result_list' quiz %}">View Results</a></p>
+    <hr>
+    {% for question in questions %}
+    <strong>Question : </strong>{{ question.question_text }} <br><br>
+    <strong>Option 1 : </strong>{{ question.choice1 }} <br>
+    <strong>Option 2 : </strong>{{ question.choice2 }} <br>
+    <strong>Option 3 : </strong>{{ question.choice3 }} <br>
+    <strong>Option 4 : </strong>{{ question.choice4 }} <br>
+    <strong>Correct Answer : </strong>{{ question.correct_choice }} <br><br>
+    <button><a href="{% url 'update' question.id %}">Update</a></button><br><br><br>
+    <hr>
+    {% endfor %}
     {% else %}
-        {% if attempted %}
-            <h2>You have already attempted this test</h2>
-        {% else %}
-            <form action="{% url 'display' quiz %}" method="POST">
-                {% csrf_token %}
-                {% for question in questions %}
-                    <strong>Question : </strong>{{ question.question_text }}<br><br>
-                    <input type="radio" name="choice_{{ question.id }}" value="{{ question.choice1 }}">{{ question.choice1 }} <br>
-                    <input type="radio" name="choice_{{ question.id }}" value="{{ question.choice2 }}">{{ question.choice2 }} <br>
-                    <input type="radio" name="choice_{{ question.id }}" value="{{ question.choice3 }}">{{ question.choice3 }} <br>
-                    <input type="radio" name="choice_{{ question.id }}" value="{{ question.choice4 }}">{{ question.choice4 }} <br>
-                {% endfor %} 
-                <br><br>
-            <button type="submit">Submit</button>
-            </form>
-        {% endif %}
+    {% if attempted %}
+    <h2>You have already attempted this test</h2>
+    <a href="{% url 'result' quiz %}">
+        <h4>Click here to view your result</h4>
+    </a>
+    {% else %}
+    <form action="{% url 'display' quiz %}" method="POST">
+        {% csrf_token %}
+        {% for question in questions %}
+        <strong>Question : </strong>{{ question.question_text }}<br><br>
+        <input type="radio" name="choice_{{ question.id }}" value="{{ question.choice1 }}">{{ question.choice1 }} <br>
+        <input type="radio" name="choice_{{ question.id }}" value="{{ question.choice2 }}">{{ question.choice2 }} <br>
+        <input type="radio" name="choice_{{ question.id }}" value="{{ question.choice3 }}">{{ question.choice3 }} <br>
+        <input type="radio" name="choice_{{ question.id }}" value="{{ question.choice4 }}">{{ question.choice4 }} <br>
+        <hr>
+        {% endfor %}
+        <br><br>
+        <button type="submit">Submit</button>
+    </form>
+    {% endif %}
     {% endif %}
 
-    
-    
+
+
 </body>
+
 </html>

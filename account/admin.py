@@ -3,7 +3,7 @@ from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import Group
 from django.contrib.auth.forms import UserCreationForm
 from .models import User, Student, Teacher
-import nested_admin
+#import nested_admin
 from django.contrib import admin
 from django import forms
 from django.contrib.admin.widgets import FilteredSelectMultiple
@@ -22,16 +22,18 @@ class BaseUserAdmin(UserAdmin):
         'last_login',
     )
 
-    filter_horizontal =()
+    filter_horizontal = ()
     list_filter = ()
     fieldsets = ()
 
+
 class StudentAdmin(UserAdmin):
-    list_display = ('email','is_student', 'is_teacher', 'role')
+    list_display = ('email', 'is_student', 'is_teacher', 'role')
 
     filter_horizontal = ()
     list_filter = ()
     fieldsets = ()
+
 
 class TeacherAdmin(UserAdmin):
     list_display = ('email', 'is_student', 'is_teacher', 'role')
@@ -40,6 +42,7 @@ class TeacherAdmin(UserAdmin):
     fieldsets = ()
     ordering = ['email']
 
+
 class StudentDisplayAdmin(UserAdmin):
     list_display = ['email', 'sap_id', 'f_name']
     ordering = ['email']
@@ -47,6 +50,7 @@ class StudentDisplayAdmin(UserAdmin):
     filter_horizontal = ()
     list_filter = ()
     fieldsets = ()
+
 
 admin.site.site_header = 'My administration'
 admin.site.site_title = 'Classroom'
@@ -57,5 +61,3 @@ admin.site.unregister(Group)
 admin.site.register(User, BaseUserAdmin)
 admin.site.register(Student, StudentAdmin)
 admin.site.register(Teacher, TeacherAdmin)
-
-

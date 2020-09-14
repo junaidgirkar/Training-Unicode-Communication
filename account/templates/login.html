@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+    <form action="{% url 'login' %}" method="POST">
+        {% csrf_token %}
+        {% if request.GET.next %}
+            <input type="hidden" name="next" value="{{ request.GET.next }}">
+        {% endif %}
+        <div>
+            <label for="email">Email : </label>
+            <input type="text" name="email" id="email" required>
+        </div><br><br>
+        <div>
+            <label for="password">Password : </label>
+            <input type="password" name="password" id="password" required>
+        </div><br><br>
+        <button type="submit">Login</button>
+        <h3><br> {{ message }} <br></h3> 
+    </form>
+    <div>
+        Not registered yet ? <a href="{% url 'register' %}">Register here</a>
+    </div>
+</body>
+</html>
