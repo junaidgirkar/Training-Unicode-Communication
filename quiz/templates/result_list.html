@@ -8,6 +8,7 @@
 </head>
 
 <body>
+    {%  if user.is_authenticated %}
     <<a href="{% url 'logout' %}">
         <h3>Logout</h3>
         </a>
@@ -17,7 +18,7 @@
         <hr>
         {% if results %}
         {% for result in results %}
-        <a href="{% url 'result' result.quiz.id result.student.sap_id %}">{{ result.student.username }}-->
+        <a href="{% url 'result' result.quiz.id result.student.sap_id %}">{{ result.student.email }}-->
             {{result.marks_obtained}}</a><br>
         <hr>
         {% endfor %}

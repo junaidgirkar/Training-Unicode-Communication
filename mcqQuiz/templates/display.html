@@ -2,19 +2,16 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Display</title>
 </head>
 
 <body>
-    {% if user.is_authenticarted %}
-    <a href="{% url 'logout' %}">
-        <h3>Logout</h3>
-    </a>
-    <a href="{% url 'index' %}">
-        <h3>Home</h3>
-    </a><br><br>
+    <button><a href="{% url 'logout' %}">
+            <h3>Logout</h3>
+        </a></button>
+    <button><a href="{% url 'index' %}">
+            <h3>Home</h3>
+        </a></button><br><br>
     <hr>
     {% if user.is_teacher %}
     <p><a href="{% url 'result_list' quiz %}">View Results</a></p>

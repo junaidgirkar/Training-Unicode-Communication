@@ -1,23 +1,25 @@
 from django import forms
-from .models import Quiz,Question
+from .models import Quiz, Question
 
 
 class QuizForm(forms.ModelForm):
 
     class Meta:
         model = Quiz
-        fields = ['topic','total_marks']
+        fields = ['subject', 'total_questions']
+
 
 class QuestionForm(forms.ModelForm):
 
     class Meta:
         model = Question
-        fields = ['question_text','choice1','choice2','choice3','choice4','correct_choice']
+        fields = ['question_text', 'option1', 'option2',
+                  'option3', 'option4', 'correct_answer']
         labels = {
-            "question_text" : "Question",
-            "choice1" : "Option 1",
-            "choice2" : "Option 2",
-            "choice3" : "Option 3",
-            "choice4" : "Option 4",
-            "correct_choice" : "Correct Answer"
+            "question_text": "Question",
+            "option1": "Option 1",
+            "option2": "Option 2",
+            "option3": "Option 3",
+            "option4": "Option 4",
+            "correct_answer": "Correct Answer"
         }

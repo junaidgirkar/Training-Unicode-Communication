@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>QUESTIONS</title>
+</head>
+<body>
+<form action="{% url 'questions' %}" method="POST" id="question_form">
+    {% csrf_token %}
+    <input type="hidden" value="{{ quiz }}" name="object">
+    {{ form.as_p }}
+    {% if last %}
+    <button type="submit">SUBMIT</button>
+    {% else %}
+    <button type="submit">NEXT QUESTION</button>
+    {% endif %}
+</form>
+</body>
+</html>

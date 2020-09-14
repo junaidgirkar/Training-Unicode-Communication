@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Results</title>
+</head>
+<body>
+    <button><a href="{% url 'logout' %}"><h3>Logout</h3></a></button>
+    <button style="margin-left:80px;"><a href="{% url 'index' %}"><h3>Home</h3></a></button><br><br><hr>
+    {% if results %}
+        {% for result in results %}
+            <a href="{% url 'result' result.quiz.id result.student.sap_id %}">{{ result.student.email }}-{{ result.student.sap_id }}</a><br><hr>
+        {% endfor %}
+    {% else %}
+        <h2>No student has attempted this quiz yet !</h2>
+    {% endif %}
+
+</body>
+</html>

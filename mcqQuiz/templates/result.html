@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Result</title>
+</head>
+<body>
+    <button><a href="{% url 'logout' %}"><h3>Logout</h3></a></button>
+    <button style="margin-left:80px;"><a href="{% url 'index' %}"><h3>Home</h3></a></button><br><br><hr>
+    <p><strong>Marks : <span style="text-decoration: underline;">{{ result.marks_obtained }} out of {{ result.quiz.total_questions }}</span></strong></p><hr>
+    {% for answer in answers %}
+        <strong>Question : </strong>{{ answer.question.question_text }} <br><br>
+        {% if user.is_student %}
+            <strong>Your Answer : </strong>
+        {% else %}
+            <strong>{{ result.student.email }}'s Answer : </strong>
+        {% endif %}
+        {{ answer.answer }} <br>
+        <strong>Correct Answer : </strong>{{ answer.question.correct_answer }} <br><hr>
+    {% endfor %}
+
+</body>
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CREATE QUIZ</title>
+</head>
+<body>
+<button><a href="{% url 'logout' %}"><h3>LOGOUT</h3></a> </button>
+<button><a href="{% url 'index' %}"><h3>HOME</h3></a> </button><br><br><br>
+<h1>1 Point per Question</h1>
+<form action="{% url 'questions' %}">
+    {{ form.as_p }}
+    <button type="submit">ADD QUESTIONS</button>
+</form>
+
+
+</body>
+</html>
