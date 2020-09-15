@@ -46,6 +46,11 @@ The CRUD app is regulated using *is_student*, *is_teacher* and *is_authenticated
 ### Done!
 The local application will be available at <a href="http://localhost:8000" target="_blank">http://localhost:8000</a>.
 
+Saved User Accounts:
+Admin: admin@admin.com , admin 
+Student: student@student.com, 8A2905tbbaby
+Teacher: teacher@teacher.com, 8A2905tbbaby
+
 ## Contributing
 Pull requests are welcome. For major
 changes, please open an issue first 
