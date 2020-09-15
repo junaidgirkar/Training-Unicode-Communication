@@ -22,7 +22,7 @@ The CRUD app is regulated using *is_student*, *is_teacher* and *is_authenticated
     ```
 2. `cd` intro the project directory
     ```shell
-    $ cd Classroom
+    $ cd Training-Unicode-Communication
     ```
 3. Create a new virtual environment activate it.
     ```shell
